@@ -7,12 +7,13 @@ import styles from './header.less'
 const { Header: AntHeader } = Layout
 
 const Header = ({ collapsed, onClick }) => (
-  <AntHeader style={{ background: '#fff', padding: 0 }}>
+  <AntHeader className={styles.header} style={{ background: '#fff', padding: 0 }}>
     <Icon
       className={styles.trigger}
       type={collapsed ? 'menu-unfold' : 'menu-fold'}
       onClick={onClick}
     />
+    <div>user</div>
   </AntHeader>
 )
 

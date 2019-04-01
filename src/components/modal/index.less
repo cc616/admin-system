@@ -1,0 +1,114 @@
+.iframe-modal {
+  @transition: .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  box-sizing: border-box;
+
+  &-mask {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    height: 100%;
+    opacity: 0;
+    transition: opacity .3s;
+    background-color: rgba(0, 0, 0, 0.65);
+  }
+
+  &-wrap {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99999;
+    outline: 0;
+    overflow: hidden;
+    // pointer-events: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  &-container {
+    width: 95%;
+    margin: auto;
+    position: relative;
+    top: 0;
+    transform: scale(0);
+    box-sizing: border-box;
+    overflow: scroll;
+    iframe {
+      border: none;
+      overflow-y: scroll;
+    }
+  }
+  &-content {
+    background: #fff;
+    border-radius: 16px;
+    height: calc(~"100vh");
+    overflow-y: scroll;
+    // pointer-events: none;
+    padding: 10px;
+  }
+  &-hidden {
+    // pointer-events: none;
+    display: none;
+    .iframe-modal-mask {
+      opacity: 0;
+    }
+    .iframe-modal-container {
+      animation: modal-fade-out @transition forwards;
+    }
+  }
+  &-open {
+    pointer-events: auto;
+    .iframe-modal-mask {
+      opacity: 1;
+    }
+    .iframe-modal-container {
+      animation: modal-fade-in @transition forwards;
+    }
+  }
+
+  &-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.45);
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+
+    i {
+      font-size: 30px;
+    }
+  }
+  @keyframes modal-fade-out {
+    from {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      opacity: 0;
+      transform: translate3d(0, -50px, 0);
+    }
+  }
+
+  @keyframes modal-fade-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -50px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translate3d(0, 0, 0);
+    }
+  }
+}

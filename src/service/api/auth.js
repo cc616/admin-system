@@ -18,6 +18,4 @@ export default {
 
     return Promise.reject(returnData)
   },
-
-  getAuth: () => Promise.resolve(),
 }

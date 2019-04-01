@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { observer, inject } from 'mobx-react'
 import { Form, Checkbox, Button, Icon, message } from 'antd'
 import classnames from 'classnames'
@@ -17,12 +17,18 @@ const FormItem = Form.Item
 @observer
 class Login extends Component {
   static propTypes = {
-    form: PropTypes.shape({}).isRequired,
+    form: PropTypes.shape({
+      getFieldDecorator: PropTypes.func.isRequired,
+    }).isRequired,
     authStore: PropTypes.shape({}).isRequired,
+    location: PropTypes.shape({
+      state: PropTypes.shape({}),
+    }).isRequired,
   }
 
   state = {
     currentKey: 'ACCOUNT',
+    redirectToReferrer: false,
   }
 
   setCurrentKeyToState = (key) => {
@@ -65,6 +71,11 @@ class Login extends Component {
         const opts = currentKey === 'ACCOUNT' ? account : mobilePhone
 
         authStore.login(opts)
+          .then(() => {
+            this.setState({
+              redirectToReferrer: true,
+            })
+          })
           .catch((error) => {
             message.error(error.message)
           })
@@ -92,7 +103,12 @@ class Login extends Component {
     })
 
     const { form } = this.props
+
     const { getFieldDecorator } = form
+    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { redirectToReferrer } = this.state
+
+    if (redirectToReferrer) return <Redirect to={from} />
 
     return (
       <div className={styles.container}>

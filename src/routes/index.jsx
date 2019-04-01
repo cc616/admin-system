@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import * as Cookies from 'js-cookie'
 import { Route, Redirect } from 'react-router'
 import { HashRouter, Switch } from 'react-router-dom'
 import DevTools from 'mobx-react-devtools'
@@ -11,10 +12,12 @@ import Login from 'routes/login'
 
 const BasicLayout = AsyncComponent(() => import('layouts/basicLayout'))
 
+const isLogin = () => !!Cookies.get('Authorization')
+
 const Routes = () => (
   <HashRouter>
     <Switch>
-      <Route exact path="/" render={() => <Redirect to="/home" />} />
+      <Route exact path="/" render={() => <Redirect to={`/${isLogin() ? 'home' : 'login'}`} />} />
       <Route path="/login" component={Login} />
       <BasicLayout />
     </Switch>
